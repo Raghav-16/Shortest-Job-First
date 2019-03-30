@@ -1,0 +1,37 @@
+def nonpre(process,bst):
+    for i in range(0,len(bst)-1):  
+     for j in range(0,len(bst)-i-1):
+      if(bst[j]>bst[j+1]):
+       temp=bst[j]
+       bst[j]=bst[j+1]
+       bst[j+1]=temp
+       temp=process[j]
+       process[j]=process[j+1]
+       process[j+1]=temp
+    for i in range(0,n):
+     print(process[i], "\n")
+   
+def choice(process,bst):
+    jtype=int(input("Enter the type of queue \n 1. SJF preemptive \n 2. SJF NON preemptive \n"))
+    if jtype==1:
+        print("SJF preemptive selected \n")
+    elif jtype==2:
+        print("SJF NON preemptive selected \n")
+        nonpre(process,bst)
+    else:
+        print("INVALID SELECTION \n Please reselect \n")
+        choice()
+
+n=int(input("Enter number of jobs \n"))
+processes=[]
+for i in range(0,n):
+ processes.insert(i,i+1)
+i=int(0)
+bt=[]
+print("Enter burst time for processes")
+for i in range(0,n):
+    print("Burst time of Process ", i+1, "is")
+    x=int(input())
+    bt.insert(0,x)
+    i=i+1
+choice(processes,bt)
