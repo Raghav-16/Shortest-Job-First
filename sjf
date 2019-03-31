@@ -1,4 +1,6 @@
 def nonpre(process,bst):
+    wt=[]
+    wt.insert(0,0)
     for i in range(0,len(bst)-1):  
      for j in range(0,len(bst)-i-1):
       if(bst[j]>bst[j+1]):
@@ -8,9 +10,11 @@ def nonpre(process,bst):
        temp=process[j]
        process[j]=process[j+1]
        process[j+1]=temp
-    print("Process\t  Burst Time\t")
+    for i in range(1,len(bst)):  
+     wt.insert(i,wt[i-1]+bst[i-1])
+    print("Process\t  Burst Time\t  Turn Around Time\t  Waiting Time")
     for i in range(0,n):
-     print(process[i],"\t\t", bt[i], "\n")
+     print(process[i],"\t\t", bst[i], "\t\t", wt[i]+bst[i], "\t\t", wt[i],  "\n")
 
 def pre(process,bst,n,at):
     rt=[]
