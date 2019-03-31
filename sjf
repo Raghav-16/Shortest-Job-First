@@ -8,13 +8,38 @@ def nonpre(process,bst):
        temp=process[j]
        process[j]=process[j+1]
        process[j+1]=temp
+    print("Process\t  Burst Time\t")
     for i in range(0,n):
-     print(process[i], "\n")
+     print(process[i],"\t\t", bt[i], "\n")
+
+def pre(process,bst,n,at):
+    rt=[]
+    art=[]
+    remain=int(0)
+    for i in range(0,n):
+        rt.insert(i,bst[i])
+        art.insert(i,at[i])
+    print("\n\n Process \t burst time \t Turn Around Time \t Waiting Time\n")
+    rt.append(999)
+    time=0
+    while remain!=n:
+        smallest=len(rt)-1
+        for i in range(0,n):
+            if art[i]<=time and rt[i]<rt[smallest] and rt[i]>0:
+                smallest=i
+        rt[smallest]=rt[smallest]-1
+        if rt[smallest]==0:
+            remain=remain+1
+            endtime=time+1
+            print("\n p", smallest+1, "\t\t", bst[smallest], "\t\t" , endtime-art[smallest],"\t\t\t", endtime-bst[smallest]-art[smallest])
+        time=time+1
+            
    
-def choice(process,bst):
+def choice(process,bst,n,at):
     jtype=int(input("Enter the type of queue \n 1. SJF preemptive \n 2. SJF NON preemptive \n"))
     if jtype==1:
         print("SJF preemptive selected \n")
+        pre(process,bst,n,at)
     elif jtype==2:
         print("SJF NON preemptive selected \n")
         nonpre(process,bst)
@@ -28,10 +53,16 @@ for i in range(0,n):
  processes.insert(i,i+1)
 i=int(0)
 bt=[]
+at=[]
 print("Enter burst time for processes")
 for i in range(0,n):
     print("Burst time of Process ", i+1, "is")
     x=int(input())
-    bt.insert(0,x)
+    bt.insert(i,x)
     i=i+1
-choice(processes,bt)
+for i in range(0,n):
+    print("Arrival time of Process ", i+1, "is")
+    x=int(input())
+    at.insert(i,x)
+    i=i+1
+choice(processes,bt,n,at)
