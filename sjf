@@ -1,4 +1,4 @@
-def nonpre(process,bst):
+def nonpre(process,bst,n):
     wt=[]
     wt.insert(0,0)
     for i in range(0,len(bst)-1):  
@@ -15,6 +15,7 @@ def nonpre(process,bst):
     print("Process\t  Burst Time\t  Turn Around Time\t  Waiting Time")
     for i in range(0,n):
      print(process[i],"\t\t", bst[i], "\t\t", wt[i]+bst[i], "\t\t", wt[i],  "\n")
+    conti()
 
 def pre(process,bst,n,at):
     rt=[]
@@ -23,7 +24,7 @@ def pre(process,bst,n,at):
     for i in range(0,n):
         rt.insert(i,bst[i])
         art.insert(i,at[i])
-    print("\n\n Process \t burst time \t Turn Around Time \t Waiting Time\n")
+    print("\n Process \t burst time \t Turn Around Time \t Waiting Time\n")
     rt.append(999)
     time=0
     while remain!=n:
@@ -37,36 +38,57 @@ def pre(process,bst,n,at):
             endtime=time+1
             print("\n p", smallest+1, "\t\t", bst[smallest], "\t\t" , endtime-art[smallest],"\t\t\t", endtime-bst[smallest]-art[smallest])
         time=time+1
+    conti()
             
-   
 def choice(process,bst,n,at):
-    jtype=int(input("Enter the type of queue \n 1. SJF preemptive \n 2. SJF NON preemptive \n"))
+    jtype=int(input("Enter the type of queue \n 1. SJF Preemptive \n 2. SJF NON Preemptive \n"))
     if jtype==1:
-        print("SJF preemptive selected \n")
+        print("SJF Preemptive selected \n")
         pre(process,bst,n,at)
     elif jtype==2:
-        print("SJF NON preemptive selected \n")
-        nonpre(process,bst)
+        print("SJF NON Preemptive selected \n")
+        nonpre(process,bst,n)
     else:
-        print("INVALID SELECTION \n Please reselect \n")
-        choice()
+        print("*INVALID SELECTION* \n Please reselect \n")
+        choice(process,bst,n,at)
 
-n=int(input("Enter number of jobs \n"))
-processes=[]
-for i in range(0,n):
- processes.insert(i,i+1)
-i=int(0)
-bt=[]
-at=[]
-print("Enter burst time for processes")
-for i in range(0,n):
-    print("Burst time of Process ", i+1, "is")
-    x=int(input())
-    bt.insert(i,x)
-    i=i+1
-for i in range(0,n):
-    print("Arrival time of Process ", i+1, "is")
-    x=int(input())
-    at.insert(i,x)
-    i=i+1
-choice(processes,bt,n,at)
+def start():
+    n=int(input("Enter number of jobs \n"))
+    if n<=0:
+        print("*INVALID INPUT*\n Number of jobs can't be 0 or less than0. \n Please Re-enter \n")
+        start()
+    else:
+        processes=[]
+        for i in range(0,n):
+         processes.insert(i,i+1)
+        i=int(0)
+        bt=[]
+        at=[]
+        print("Enter burst time for processes")
+        for i in range(0,n):
+            print("Burst time of Process ", i+1, "is")
+            x=int(input())
+            if x<=0:
+                print("Burst time can't be 0 or less than 0. \nPlease enter a valid value")
+                x=int(input())
+            bt.insert(i,x)
+            i=i+1
+        for i in range(0,n):
+            print("Arrival time of Process ", i+1, "is")
+            x=int(input())
+            at.insert(i,x)
+            i=i+1
+        choice(processes,bt,n,at)
+
+def conti():
+    print("Do you want to continue? \n if Yes press 1 \n if NO press 0 \n")
+    ans=int(input())
+    if ans==1:
+        print("\n")
+        start()
+    elif ans==0:
+        return 0
+    else:
+        print("*INVALID SELECTION* \n Please reselect\n")
+        conti()
+start()
